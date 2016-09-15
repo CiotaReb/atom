@@ -4,6 +4,10 @@
 
   <?php echo link_to_if(SecurityPrivileges::editCredentials($sf_user, 'informationObject'), '<h2>'.__('%1% metadata', array('%1%' => sfConfig::get('app_ui_label_digitalobject'))).'</h2>', array($resource, 'module' => 'digitalobject', 'action' => 'edit'), array('title' => __('Edit %1%', array('%1%' => mb_strtolower(sfConfig::get('app_ui_label_digitalobject')))))) ?>
 
+  <?php if (sfConfig::get('app_toggleDigitalObjectMap') && is_numeric($latitudeProperty->value) && is_numeric($longitudeProperty->value) && null !== $keyProperty = QubitSetting::getByName('google_maps_api_key')): ?>
+    <div id="front-map" class="simple-map" data-key="<?php echo $keyProperty->value ?>" data-latitude="<?php echo $latitudeProperty->value ?>" data-longitude="<?php echo $longitudeProperty->value ?>"></div>
+  <?php endif; ?>
+
   <?php if (!QubitAcl::check($resource->informationObject, 'readReference')): ?>
     <?php echo render_show(__('Access'), __('Restricted')) ?>
   <?php endif; ?>

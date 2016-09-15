@@ -40,5 +40,8 @@ class DigitalObjectMetadataComponent extends sfComponent
     {
       $this->denyFileNameByPremis = true;
     }
+
+    $this->latitudeProperty = $this->infoObj->digitalObjects[0]->getPropertyByName('latitude');
+    $this->longitudeProperty = $this->infoObj->digitalObjects[0]->getPropertyByName('longitude');
   }
 }
