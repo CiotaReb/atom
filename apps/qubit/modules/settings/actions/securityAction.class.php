@@ -62,11 +62,13 @@ class SettingsSecurityAction extends sfAction
     $limitAdminIp = QubitSetting::getByName('limit_admin_ip');
     $requireSslAdmin = QubitSetting::getByName('require_ssl_admin');
     $requireStrongPasswords = QubitSetting::getByName('require_strong_passwords');
+    $googleMapsApiKey = QubitSetting::getByName('google_maps_api_key');
 
     $this->securityForm->setDefaults(array(
       'limit_admin_ip' => (isset($limitAdminIp)) ? $limitAdminIp->getValue(array('sourceCulture'=>true)) : null,
       'require_ssl_admin' => (isset($requireSslAdmin)) ? intval($requireSslAdmin->getValue(array('sourceCulture'=>true))) : 1,
-      'require_strong_passwords' => (isset($requireStrongPasswords)) ? intval($requireStrongPasswords->getValue(array('sourceCulture'=>true))) : 1
+      'require_strong_passwords' => (isset($requireStrongPasswords)) ? intval($requireStrongPasswords->getValue(array('sourceCulture'=>true))) : 1,
+      'google_maps_api_key' => (isset($googleMapsApiKey)) ? $googleMapsApiKey->getValue(array('sourceCulture'=>true)) : null,
     ));
   }
 
@@ -102,6 +104,19 @@ class SettingsSecurityAction extends sfAction
       $setting->setValue($requireStrongPasswords, array('sourceCulture' => true));
       $setting->save();
     }
+
+    // Google Maps API key
+    if (null === $setting = QubitSetting::getByName('google_maps_api_key'))
+    {
+      $setting = new QubitSetting;
+      $setting->name = 'google_maps_api_key';
+      $setting->editable = 1;
+      $setting->deleteable = 0;
+    }
+
+    // Force sourceCulture update to prevent discrepency in settings between cultures
+    $setting->setValue($thisForm->getValue('google_maps_api_key'), array('sourceCulture' => true));
+    $setting->save();
 
     return $this;
   }

@@ -33,14 +33,16 @@ class SettingsSecurityForm extends sfForm
     $this->setWidgets(array(
       'limit_admin_ip' => new sfWidgetFormInput,
       'require_ssl_admin' => new sfWidgetFormSelectRadio(array('choices'=>array(1=>'yes', 0=>'no')), array('class'=>'radio')),
-      'require_strong_passwords' => new sfWidgetFormSelectRadio(array('choices'=>array(1=>'yes', 0=>'no')), array('class'=>'radio'))
+      'require_strong_passwords' => new sfWidgetFormSelectRadio(array('choices'=>array(1=>'yes', 0=>'no')), array('class'=>'radio')),
+      'google_maps_api_key' => new sfWidgetFormInput
     ));
 
     // Add labels
     $this->widgetSchema->setLabels(array(
       'limit_admin_ip' => $i18n->__('Limit administrator functionality to one ore more IP addresses, separated by semicolons.'),
       'require_ssl_admin' => $i18n->__('Require SSL for all administrator functionality'),
-      'require_strong_passwords' => $i18n->__('Require strong passwords')
+      'require_strong_passwords' => $i18n->__('Require strong passwords'),
+      'google_maps_api_key' => $i18n->__('Google Maps Javascript API key (for displaying dynamic maps).')
     ));
 
     // Add helper text
@@ -53,6 +55,7 @@ class SettingsSecurityForm extends sfForm
     $this->validatorSchema['limit_admin_ip'] = new sfValidatorString(array('required' => false));
     $this->validatorSchema['require_ssl_admin'] = new sfValidatorInteger(array('required' => false));
     $this->validatorSchema['require_strong_passwords'] = new sfValidatorInteger(array('required' => false));
+    $this->validatorSchema['google_maps_api_key'] = new sfValidatorString(array('required' => false));
 
     // Set decorator
     $decorator = new QubitWidgetFormSchemaFormatterList($this->widgetSchema);
